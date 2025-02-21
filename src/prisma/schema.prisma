@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @db.VarChar()
+  lastname              String                  @db.VarChar()
+  identificationType    String                  @db.VarChar()
+  identification        String                  @db.VarChar()
+  email                 String                  @unique @db.VarChar
+  phone                 String                  @db.VarChar()
+  isActive              Boolean                 @default(true)
+  password              String                  @db.VarChar()
+  roleId                Int
+  createdAt             DateTime                @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime                @updatedAt @db.Timestamptz(3)
+  roles                 Roles                   @relation(fields: [roleId], references: [id])
+  Logs                  Logs[]
+
+  @@unique([identificationType, identification])
+}
+
+model Roles {
+  id               Int                @id @default(autoincrement())
+  name             String             @unique @db.VarChar
+  description      String?            @db.VarChar
+  isActive         Boolean            @default(true)
+  createdAt        DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime           @updatedAt @db.Timestamptz(3)
+  user             Users[]
+  rolesPermissions RolesPermissions[]
+}
+
+model Modules {
+  id          Int           @id @default(autoincrement())
+  name        String?       @unique @db.VarChar
+  createdAt   DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt   DateTime      @updatedAt @db.Timestamptz(3)
+  permissions Permissions[]
+}
+
+model Permissions {
+  id              Int                @id @default(autoincrement())
+  description     String?            @unique @db.VarChar
+  path            String?            @db.VarChar
+  createdAt       DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime           @updatedAt @db.Timestamptz(3)
+  code            String             @db.VarChar
+  modules         Modules            @relation(fields: [moduleId], references: [id])
+  moduleId        Int
+  isActive        Boolean            @default(true)
+  rolesPermission RolesPermissions[]
+}
+
+model RolesPermissions {
+  id           Int         @id @default(autoincrement())
+  role         Roles       @relation(fields: [roleId], references: [id])
+  roleId       Int
+  permissions  Permissions @relation(fields: [permissionId], references: [id])
+  permissionId Int
+  createdAt    DateTime    @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime    @updatedAt @db.Timestamptz(3)
+
+  @@unique([roleId, permissionId])
+}
+
+model Logs {
+  id           Int      @id @default(autoincrement())
+  actionUserId Int
+  description  String   @db.VarChar
+  typeAction   String   @db.VarChar
+  data         String   @db.VarChar
+  model        String   @db.VarChar
+  modelId      Int
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+  users        Users?   @relation(fields: [actionUserId], references: [id])
+}
