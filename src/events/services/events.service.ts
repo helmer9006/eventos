@@ -9,11 +9,23 @@ import { handleExceptions, isNumber } from '@src/shared/helpers/general';
 import { PrismaService } from '@src/prisma/services/prisma.service';
 import { format, formatISO, isEqual, parseISO } from 'date-fns';
 import { PaginationEventsDto } from '../models/dto/pagination-events.dto';
+import { MailService } from '@src/mail/services/mail.service';
+import { UsersService } from '@src/users/services/users.service';
+
 @Injectable()
 export class EventsService {
-  constructor(private readonly prismaService: PrismaService) {}
-  async create(createEventDto: CreateEventDto) {
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly mailService: MailService,
+    private readonly userService: UsersService,
+  ) {}
+  async create(createEventDto: CreateEventDto, userId: number) {
     try {
+      const userFound = await this.userService.findById(userId);
+      if (!userFound)
+        throw new BadRequestException(
+          'No fue posible identificar el usuario registrado.',
+        );
       const validateExist = await this.prismaService.events.findFirst({
         where: {
           title: createEventDto.title,
@@ -38,6 +50,11 @@ export class EventsService {
       const eventCreated = await this.prismaService.events.create({
         data: createEventDto,
       });
+      await this.mailService.sendMail(
+        userFound.email,
+        'Evento Creado exitosamente',
+        `Tu evento ${createEventDto.title} ha sido registrado correctamente.`,
+      );
       return eventCreated;
     } catch (error) {
       handleExceptions(error);
@@ -113,13 +130,20 @@ export class EventsService {
     }
   }
 
-  async update(id: number, updateEventDto: UpdateEventDto) {
+  async update(id: number, updateEventDto: UpdateEventDto, userId: number) {
     try {
-      await this.eventExists(id);
-      return await this.prismaService.events.update({
-        where: { id },
-        data: updateEventDto,
-      });
+      const eventFound = await this.eventExists(id);
+      const userFound = await this.userService.findById(userId);
+      if (!userFound)
+        return await this.prismaService.events.update({
+          where: { id },
+          data: updateEventDto,
+        });
+      await this.mailService.sendMail(
+        userFound.email,
+        'Evento actualizado exitosamente',
+        `Tu evento ${eventFound.title} ha sido actualizado correctamente.`,
+      );
     } catch (error) {
       handleExceptions(error);
     }

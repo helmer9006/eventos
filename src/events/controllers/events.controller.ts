@@ -12,7 +12,7 @@ import {
 import { EventsService } from '../services/events.service';
 import { CreateEventDto } from '../models/dto/create-event.dto';
 import { UpdateEventDto } from '../models/dto/update-event.dto';
-import { Auth } from '@src/auth/decorators';
+import { Auth, GetUser } from '@src/auth/decorators';
 import { RolesEnum } from '@src/auth/enums/roles.enum';
 import {
   ApiBadRequestResponse,
@@ -46,8 +46,11 @@ export class EventsController {
   @ApiConflictResponse(SW_RESPONSES.conflictResponse)
   @ApiInternalServerErrorResponse(SW_RESPONSES.errorServerResponse)
   @Auth(RolesEnum.SUPERADMIN)
-  async create(@Body() createEventDto: CreateEventDto) {
-    const data = await this.eventsService.create(createEventDto);
+  async create(
+    @Body() createEventDto: CreateEventDto,
+    @GetUser('id', ParseIntPipe) userId: number,
+  ) {
+    const data = await this.eventsService.create(createEventDto, userId);
     return new GenericResponse(
       data,
       HttpStatus.OK.valueOf(),
@@ -102,8 +105,9 @@ export class EventsController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateEventDto: UpdateEventDto,
+    @GetUser('id', ParseIntPipe) userId: number,
   ) {
-    const data = await this.eventsService.update(id, updateEventDto);
+    const data = await this.eventsService.update(id, updateEventDto, userId);
     return new GenericResponse(
       data,
       HttpStatus.OK.valueOf(),

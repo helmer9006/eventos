@@ -14,6 +14,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { EventsModule } from './events/events.module';
 import { RegistrationsModule } from './registrations/registrations.module';
+import { BullModule } from '@nestjs/bull';
+import { MailModule } from './mail/mail.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,6 +30,10 @@ import { RegistrationsModule } from './registrations/registrations.module';
         PORT: Joi.string().required(),
         ID_ROLE_SUPERADMIN: Joi.number().required(),
         ID_ROLE_SUBSCRIBER: Joi.number().required(),
+        EMAIL_USER: Joi.string().required(),
+        EMAIL_PASSWORD: Joi.string().required(),
+        REDIS: Joi.string().required(),
+        PORT_REDIS: Joi.number().required(),
       }),
     }),
     AuthModule,
@@ -45,7 +51,16 @@ import { RegistrationsModule } from './registrations/registrations.module';
     }),
     EventsModule,
     RegistrationsModule,
+    BullModule.forRoot({
+      redis: {
+        host: process.env.REDIS,
+        port: Number(process.env.PORT_REDIS),
+      },
+    }),
+    BullModule.registerQueue({
+      name: 'mailQueue',
+    }),
+    MailModule,
   ],
-  controllers: [],
 })
 export class AppModule {}

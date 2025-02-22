@@ -6,7 +6,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { Logger } from '@nestjs/common';
 import * as express from 'express';
 const logger = new Logger('MainBootstrap');
-
+import { getQueueToken } from '@nestjs/bull';
+import { Queue } from 'bullmq';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'log', 'debug'],
@@ -43,6 +44,8 @@ async function bootstrap() {
   SwaggerModule.setup('cs/docs', app, document);
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+  const queue: Queue = app.get(getQueueToken('mailQueue'));
+  logger.log(`✅ Queue register successfully: ${queue.name}`);
   await app.listen(process.env.PORT || 4000);
   logger.log(`application started on port: ${process.env.PORT || 4000}`);
 }

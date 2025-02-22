@@ -2,16 +2,16 @@
   <a href="http://nestjs.com/" target="blank"><img src="#" width="200" alt="Logo proyecto" /></a>
 </p>
 
-🥼🧪 EXAMPLE
+🥼🧪 GESTIÓN DE EVENTOS
 
-Proyecto de example.
+Proyecto de gestión de eventos.
 
 # Ejecutar proyecto
 
 1. Clonar el repositorio
 
 ```
-https://github.com/helmer9006/auth-project.git
+https://github.com/helmer9006/eventos.git
 ```
 
 2. Ejecutar
@@ -26,20 +26,46 @@ npm install
 npm install -g @nestjs/cli
 ```
 
-4. Validar variables de entorno para conexión a la base de datos según ambiente.
+4. Clonar el archivo `.env.template` y renombrar la copia a `.env`
+
+5. Validar variables de entorno para conexión a la base de datos según ambiente.
+   Para mejorar proceso de revisión se deja cadena de conexión a base de datos en la nube.
 
 ```
-DATABASE_URL=uriconexiondbaquí
+DATABASE_URL=postgresql://helmer90:hKEJoRa5JYeSCmsSrLfxIDFwJPK9aiqy@dpg-cusgrfd6l47c73e4mjsg-a.oregon-postgres.render.com/eventos_zz8y
 ```
-
-5. Clonar el archivo `.env.template` y renombrar la copia a `.env`
 
 6. Llenar las variables de entorno definidas en el `.env`
 
-7. Ejecutar aplicación en dev:
-   ```
-   npm run start:dev
-   ```
+7. Para la variable de entorno de EMAIL_PASSWORD realizar el siguiente proceso en su cuenta de correo gmail.
+   EMAIL_PASSWORD debe llevar el valor de la contraseña creada en gmail
+
+```
+1. Ir a Configuración de cuenta > Seguridad > Contraseñas de aplicación
+2. Genera una nueva contraseña de aplicación
+```
+
+8. Instalar redis para diligencia variable de entorno:
+
+```
+docker run --name redis -p 6379:6379 -d redis
+```
+
+9. Mantener el valor de la variable JWT_SECRET=S3Cr3t@24$Pass$@Q
+   Para garantizar que el usuario test funcione con la db en la nube.
+10. Ejecutar aplicación en dev:
+
+    ```
+    npm run start:dev
+    ```
+
+11. La documentación la pueden ver en el link:
+
+```
+http://localhost:3001/cs/docs
+```
+
+usuario: admin y la clave es la que se proporcione en el env SWAGGER_PASS
 
 # Build de producción
 

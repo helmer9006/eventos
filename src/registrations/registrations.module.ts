@@ -7,6 +7,7 @@ import { EventsService } from '@src/events/services/events.service';
 import { LogsService } from '@src/logs/services/logs.service';
 import { UtilsService } from '@src/shared/services/utils.service';
 import { AxiosAdapter } from '@src/shared/adapters/axios.adapter';
+import { MailModule } from '@src/mail/mail.module';
 
 @Module({
   controllers: [RegistrationsController],
@@ -19,6 +20,6 @@ import { AxiosAdapter } from '@src/shared/adapters/axios.adapter';
     UtilsService,
     AxiosAdapter,
   ],
-  imports: [],
+  imports: [MailModule],
 })
 export class RegistrationsModule {}
