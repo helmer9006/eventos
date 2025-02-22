@@ -115,13 +115,14 @@ export class CreateUserDto {
   })
   password: string;
 
+  @IsOptional()
   @IsNumber({}, { message: 'El campo rol del usuario es requerido.' })
   @ApiProperty({
     description: 'Id del rol asignado al usuario.',
     nullable: false,
     example: 1,
   })
-  roleId: number;
+  roleId?: number;
 
   @IsOptional()
   @IsDate()

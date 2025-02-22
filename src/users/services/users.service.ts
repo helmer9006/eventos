@@ -50,7 +50,7 @@ export class UsersService {
         : null;
 
       const userCreated = await this.prismaService.users.create({
-        data: createUserDto,
+        data: { ...createUserDto, roleId: createUserDto.roleId },
       });
 
       // Insert log for audit
@@ -289,6 +289,31 @@ export class UsersService {
       });
       if (!foundUser) throw new NotFoundException('Usuario no encontrado.');
       return foundUser;
+    } catch (error) {
+      handleExceptions(error);
+    }
+  }
+
+  async createPublic(createUserDto: CreateUserDto, roleId: number) {
+    try {
+      // Decode password Base64
+      const decodedPassword = Buffer.from(
+        createUserDto.password,
+        'base64',
+      ).toString('utf-8');
+
+      //hashed  password
+      const hashedPassword = await bcrypt.hash(decodedPassword, 10);
+      createUserDto.password = hashedPassword;
+      const { description, action } = this.configuration.AUDIT_ACTIONS
+        ? this.configuration.AUDIT_ACTIONS.USER_CREATE
+        : null;
+      delete createUserDto.roleId;
+      const userCreated = await this.prismaService.users.create({
+        data: { ...createUserDto, roleId: roleId },
+      });
+      const { password, ...response } = userCreated;
+      return response;
     } catch (error) {
       handleExceptions(error);
     }

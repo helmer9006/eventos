@@ -191,4 +191,21 @@ export class UsersController {
       'Usuario encontrado.',
     );
   }
+
+  @Post('createUserPublic')
+  @ApiBody({ type: CreateUserDto })
+  @ApiOkResponse(SW_RESPONSES.createUserOkResponse)
+  @ApiBadRequestResponse(SW_RESPONSES.badRequestResponse)
+  @ApiUnauthorizedResponse(SW_RESPONSES.createUserUnauthorizeResponse)
+  @ApiConflictResponse(SW_RESPONSES.conflictResponse)
+  @ApiInternalServerErrorResponse(SW_RESPONSES.errorServerResponse)
+  async createPublic(@Body() createUserDto: CreateUserDto) {
+    const roleId = await RolesEnum.SUBSCRIBER;
+    const data = await this.usersService.createPublic(createUserDto, roleId);
+    return new GenericResponse(
+      data,
+      HttpStatus.OK.valueOf(),
+      'Usuario creado correctamente.',
+    );
+  }
 }
