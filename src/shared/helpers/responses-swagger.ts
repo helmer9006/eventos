@@ -829,4 +829,311 @@ export const SW_RESPONSES = {
       },
     },
   },
+
+  createEventOkResponse: {
+    description: 'Respuesta exitosa creación de evento.',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              example: {
+                id: 3,
+                title: 'REUNIÓN DAILY',
+                description: 'REUNIÓN DÍARIA EN LAS MAÑANAS',
+                location: 'SALON CUSIANA',
+                startDateTime: '2025-01-20T15:30:00Z',
+                endDateTime: '2025-01-20T15:30:00Z',
+                updatedAt: '2025-02-22T02:50:14.616Z',
+                createdAt: '2025-02-22T02:50:14.616Z',
+              },
+            },
+            statusCode: { type: 'number', example: 200 },
+            message: {
+              type: 'string',
+              example: 'Evento creado correctamente.',
+            },
+          },
+        },
+      },
+    },
+  },
+
+  getAllEventsOkResponse: {
+    description: 'Respuesta exitosa consulta de eventos.',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              example: {
+                count: 1,
+                events: [
+                  {
+                    id: 3,
+                    title: 'REUNIÓN DAILY',
+                    description: 'REUNIÓN DÍARIA EN LAS MAÑANAS',
+                    location: 'SALON CUSIANA',
+                    startDateTime: '2025-01-20T15:30:00Z',
+                    endDateTime: '2025-01-20T15:30:00Z',
+                    updatedAt: '2025-02-22T02:50:14.616Z',
+                    createdAt: '2025-02-22T02:50:14.616Z',
+                  },
+                  {
+                    id: 5,
+                    title: 'REUNIÓN DAILY CUATRO',
+                    description: 'REUNIÓN DÍARIA EN LAS MAÑANAS',
+                    location: 'SALON CUSIANA 4',
+                    startDateTime: '2024-02-20T10:30:00Z',
+                    endDateTime: '2024-01-20T20:00:00Z',
+                    updatedAt: '2025-02-22T03:32:36.093Z',
+                    createdAt: '2025-02-22T03:32:36.093Z',
+                  },
+                ],
+              },
+            },
+            statusCode: { type: 'number', example: 200 },
+            message: { type: 'string', example: 'Eventos encontrados.' },
+          },
+        },
+      },
+    },
+  },
+
+  getOneEventsOkResponse: {
+    description: 'Respuesta exitosa consulta de evento por id.',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              example: {
+                id: 3,
+                title: 'REUNIÓN DAILY',
+                description: 'REUNIÓN DÍARIA EN LAS MAÑANAS',
+                location: 'SALON CUSIANA',
+                startDateTime: '2025-01-20T15:30:00Z',
+                endDateTime: '2025-01-20T15:30:00Z',
+                updatedAt: '2025-02-22T02:50:14.616Z',
+                createdAt: '2025-02-22T02:50:14.616Z',
+              },
+            },
+            statusCode: { type: 'number', example: 200 },
+            message: { type: 'string', example: 'Evento encontrado.' },
+          },
+        },
+      },
+    },
+  },
+
+  updateEventOkResponse: {
+    description: 'Respuesta exitosa actualización de evento.',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              example: {
+                id: 3,
+                title: 'REUNIÓN DAILY CUATRO UPDATE',
+                description: 'REUNIÓN DÍARIA EN LAS MAÑANAS UPDATE',
+                location: 'SALON CUSIANA 4 UPDATE',
+                startDateTime: '2024-02-20T10:40:00Z',
+                endDateTime: '2024-01-20T20:40:00Z',
+                updatedAt: '2025-02-22T03:57:05.964Z',
+                createdAt: '2025-02-22T02:50:14.616Z',
+              },
+            },
+            statusCode: { type: 'number', example: 200 },
+            message: {
+              type: 'string',
+              example: 'Evento actualizado correctamente.',
+            },
+          },
+        },
+      },
+    },
+  },
+
+  deleteEventsOkResponse: {
+    description: 'Respuesta exitosa eliminación de evento por id.',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              example: {
+                id: 3,
+                title: 'REUNIÓN DAILY',
+                description: 'REUNIÓN DÍARIA EN LAS MAÑANAS',
+                location: 'SALON CUSIANA',
+                startDateTime: '2025-01-20T15:30:00Z',
+                endDateTime: '2025-01-20T15:30:00Z',
+                updatedAt: '2025-02-22T02:50:14.616Z',
+                createdAt: '2025-02-22T02:50:14.616Z',
+              },
+            },
+            statusCode: { type: 'number', example: 200 },
+            message: {
+              type: 'string',
+              example: 'Evento eliminado correctamente.',
+            },
+          },
+        },
+      },
+    },
+  },
+
+  createRegistrationOkResponse: {
+    description: 'Respuesta exitosa creación de inscripción.',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              example: {
+                id: 2,
+                userId: 1,
+                eventId: 1,
+                createdAt: '2025-02-22T18:06:15.146Z',
+                wasCanceled: false,
+              },
+            },
+            statusCode: { type: 'number', example: 200 },
+            message: {
+              type: 'string',
+              example: 'Inscripción realizada correctamente',
+            },
+          },
+        },
+      },
+    },
+  },
+
+  getAllRegistrationsOkResponse: {
+    description: 'Respuesta exitosa consulta de eventos.',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              example: {
+                count: 1,
+                registrations: [
+                  {
+                    id: 3,
+                    userId: 2,
+                    eventId: 1,
+                    createdAt: '2025-02-22T18:34:20.699Z',
+                    wasCanceled: true,
+                    User: {
+                      id: 2,
+                      name: 'LUISA',
+                      lastname: 'RUIZ',
+                      identificationType: 'CC',
+                      identification: '222222',
+                      email: 'helmervillarreal5@gmail.com',
+                      phone: '3013555186',
+                      isActive: true,
+                      password:
+                        '$2b$10$yu/5MSIkivXQLMWPw8t6ZOduYCVHhMDqsW0lisdHZnL6CQQdqOLOC',
+                      roleId: 2,
+                      createdAt: '2025-02-22T18:27:14.630Z',
+                      updatedAt: '2025-02-22T18:27:14.630Z',
+                    },
+                    Event: {
+                      id: 1,
+                      title: 'REUNIÓN DAILY CUATRO',
+                      description: 'REUNIÓN DÍARIA EN LAS MAÑANAS',
+                      location: 'SALON CUSIANA 4',
+                      startDateTime: '2025-02-22T19:30:00Z',
+                      endDateTime: '2025-02-22T18:30:00Z',
+                      updatedAt: '2025-02-22T16:10:25.228Z',
+                      createdAt: '2025-02-22T16:10:25.228Z',
+                    },
+                  },
+                  {
+                    id: 2,
+                    userId: 1,
+                    eventId: 1,
+                    createdAt: '2025-02-22T18:06:15.146Z',
+                    wasCanceled: false,
+                    User: {
+                      id: 1,
+                      name: 'HELMER',
+                      lastname: 'VILLARREAL LARIOS',
+                      identificationType: 'CC',
+                      identification: '1051635340',
+                      email: 'helmervillarreal@gmail.com',
+                      phone: ' 3013555186',
+                      isActive: true,
+                      password:
+                        '$2b$10$VSx0JpqxazNktNrKXfuRDuY9k6vRQihcILYInAHBgLTXqEZBSkRMO',
+                      roleId: 1,
+                      createdAt: '2025-02-22T16:09:17.643Z',
+                      updatedAt: '2025-02-22T16:09:17.643Z',
+                    },
+                    Event: {
+                      id: 1,
+                      title: 'REUNIÓN DAILY CUATRO',
+                      description: 'REUNIÓN DÍARIA EN LAS MAÑANAS',
+                      location: 'SALON CUSIANA 4',
+                      startDateTime: '2025-02-22T19:30:00Z',
+                      endDateTime: '2025-02-22T18:30:00Z',
+                      updatedAt: '2025-02-22T16:10:25.228Z',
+                      createdAt: '2025-02-22T16:10:25.228Z',
+                    },
+                  },
+                ],
+              },
+            },
+            statusCode: { type: 'number', example: 200 },
+            message: { type: 'string', example: 'Eventos encontrados.' },
+          },
+        },
+      },
+    },
+  },
+
+  cancelRegistrationOkResponse: {
+    description: 'Respuesta exitosa cancelación de inscripción.',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'object',
+              example: {
+                id: 3,
+                userId: 2,
+                eventId: 1,
+                createdAt: '2025-02-22T18:34:20.699Z',
+                wasCanceled: true,
+              },
+            },
+            statusCode: { type: 'number', example: 200 },
+            message: {
+              type: 'string',
+              example: 'Inscripción cancelada correctamente',
+            },
+          },
+        },
+      },
+    },
+  },
 };

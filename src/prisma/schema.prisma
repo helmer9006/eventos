@@ -8,20 +8,21 @@ datasource db {
 }
 
 model Users {
-  id                    Int                     @id @default(autoincrement())
-  name                  String                  @db.VarChar()
-  lastname              String                  @db.VarChar()
-  identificationType    String                  @db.VarChar()
-  identification        String                  @db.VarChar()
-  email                 String                  @unique @db.VarChar
-  phone                 String                  @db.VarChar()
-  isActive              Boolean                 @default(true)
-  password              String                  @db.VarChar()
-  roleId                Int
-  createdAt             DateTime                @default(now()) @db.Timestamptz(3)
-  updatedAt             DateTime                @updatedAt @db.Timestamptz(3)
-  roles                 Roles                   @relation(fields: [roleId], references: [id])
-  Logs                  Logs[]
+  id                 Int             @id @default(autoincrement())
+  name               String          @db.VarChar()
+  lastname           String          @db.VarChar()
+  identificationType String          @db.VarChar()
+  identification     String          @db.VarChar()
+  email              String          @unique @db.VarChar
+  phone              String          @db.VarChar()
+  isActive           Boolean         @default(true)
+  password           String          @db.VarChar()
+  roleId             Int
+  createdAt          DateTime        @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime        @updatedAt @db.Timestamptz(3)
+  roles              Roles           @relation(fields: [roleId], references: [id])
+  Logs               Logs[]
+  Registration       Registrations[]
 
   @@unique([identificationType, identification])
 }
@@ -80,4 +81,28 @@ model Logs {
   modelId      Int
   createdAt    DateTime @default(now()) @db.Timestamptz(3)
   users        Users?   @relation(fields: [actionUserId], references: [id])
+}
+
+model Events {
+  id            Int             @id @default(autoincrement())
+  title         String          @unique
+  description   String?         @db.VarChar
+  location      String
+  startDateTime String
+  endDateTime   String
+  updatedAt     DateTime        @updatedAt @db.Timestamptz(3)
+  createdAt     DateTime        @default(now()) @db.Timestamptz(3)
+  Registration  Registrations[]
+}
+
+model Registrations {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  eventId     Int
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  wasCanceled Boolean  @default(false)
+  User        Users    @relation(fields: [userId], references: [id])
+  Event       Events   @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId])
 }

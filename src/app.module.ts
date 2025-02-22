@@ -12,6 +12,8 @@ import { ConfigurationsModule } from './configurations/configurations.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { EventsModule } from './events/events.module';
+import { RegistrationsModule } from './registrations/registrations.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,6 +27,7 @@ import { join } from 'path';
         APP_CLIENT: Joi.string().required(),
         PORT: Joi.string().required(),
         ID_ROLE_SUPERADMIN: Joi.number().required(),
+        ID_ROLE_SUBSCRIBER: Joi.number().required(),
       }),
     }),
     AuthModule,
@@ -40,6 +43,8 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', '../public'),
       serveRoot: '/files',
     }),
+    EventsModule,
+    RegistrationsModule,
   ],
   controllers: [],
 })

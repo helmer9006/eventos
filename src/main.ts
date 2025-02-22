@@ -13,10 +13,10 @@ async function bootstrap() {
   });
   const passSwagger = process.env.SWAGGER_PASS;
   const config = new DocumentBuilder()
-    .setTitle('Gestión de glosas')
-    .setDescription('gestión de glosas descripción de servicios.')
+    .setTitle('Gestión de eventos.')
+    .setDescription('Gestión de eventos.')
     .setVersion('0.1')
-    .addTag('gestion-glosas')
+    .addTag('Gestión de eventos y notificaciones')
     .addBearerAuth()
     .build();
   app.setGlobalPrefix('api');
@@ -35,7 +35,7 @@ async function bootstrap() {
     basicAuth({
       challenge: true,
       users: {
-        glosas: passSwagger,
+        admin: passSwagger,
       },
     }),
   );
